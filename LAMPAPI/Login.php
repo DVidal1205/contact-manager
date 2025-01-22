@@ -7,7 +7,15 @@ $id = 0;
 $firstName = "";
 $lastName = "";
 
-$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
+// Database configuration
+$servername = "localhost";
+$username = "TheBeast";
+$password = "WeLoveCOP4331";
+$dbname = "COP4331";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
 if ($conn->connect_error) {
 	returnWithError($conn->connect_error);
 } else {

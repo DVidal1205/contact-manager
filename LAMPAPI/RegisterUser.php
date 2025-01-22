@@ -1,11 +1,12 @@
 <?php
 // user_registration.php
 
+
 // Database configuration
 $servername = "localhost";
-$username = "root";
+$username = "TheBeast";
 $password = "WeLoveCOP4331";
-$dbname = "TheBeast";
+$dbname = "COP4331";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
