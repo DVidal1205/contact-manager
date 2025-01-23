@@ -1,44 +1,52 @@
+
 <?php
 
 $inData = getRequestInfo();
 
+$id = 0;
+$firstName = "";
+$lastName = "";
+
 $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-
 if ($conn->connect_error) {
-    returnWithError($conn->connect_error);
+	returnWithError($conn->connect_error);
 } else {
-    $stmt = $conn->prepare("INSERT INTO Contacts (Name, Email, Phone) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $inData["name"], $inData["email"], $inData["phone"]);
+	$stmt = $conn->prepare("SELECT ID,firstName,lastName FROM Users WHERE Login=? AND Password =?");
+	$stmt->bind_param("ss", $inData["login"], $inData["password"]);
+	$stmt->execute();
+	$result = $stmt->get_result();
 
-    if ($stmt->execute()) {
-        returnWithSuccess("Contact added successfully!");
-    } else {
-        returnWithError("Failed to add contact: " . $stmt->error);
-    }
+	if ($row = $result->fetch_assoc()) {
+		returnWithInfo($row['firstName'], $row['lastName'], $row['ID']);
+	} else {
+		returnWithError("No Records Found");
+	}
 
-    $stmt->close();
-    $conn->close();
+	$stmt->close();
+	$conn->close();
 }
 
 function getRequestInfo()
 {
-    return json_decode(file_get_contents('php://input'), true);
+	return json_decode(file_get_contents('php://input'), true);
 }
 
 function sendResultInfoAsJson($obj)
 {
-    header('Content-type: application/json');
-    echo $obj;
+	header('Content-type: application/json');
+	echo $obj;
 }
 
 function returnWithError($err)
 {
-    $retValue = '{"error":"' . $err . '"}';
-    sendResultInfoAsJson($retValue);
+	$retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
+	sendResultInfoAsJson($retValue);
 }
 
-function returnWithSuccess($message)
+function returnWithInfo($firstName, $lastName, $id)
 {
-    $retValue = '{"message":"' . $message . '","error":""}';
-    sendResultInfoAsJson($retValue);
+	$retValue = '{"id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","error":""}';
+	sendResultInfoAsJson($retValue);
 }
+
+?>
