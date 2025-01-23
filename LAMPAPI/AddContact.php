@@ -2,7 +2,7 @@
 
 $inData = getRequestInfo();
 
-$name = "";
+$Cname = "";
 $email = "";
 $phone = "";
 
@@ -17,7 +17,7 @@ if ($conn->connect_error) {
     $result = $stmt->get_result();
 
     if ($row = $result->fetch_assoc()) {
-        returnWithInfo($row['name'], $row['email'], $row['phone']);
+        returnWithInfo($Cname, $email, $phone);
     } else {
         returnWithError("No Records Found");
     }
