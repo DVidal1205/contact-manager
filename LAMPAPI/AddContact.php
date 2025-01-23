@@ -11,7 +11,7 @@ $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 if ($conn->connect_error) {
     returnWithError($conn->connect_error);
 } else {
-    $stmt = $conn->prepare("SELECT Name,Email,Phone FROM Users WHERE Name=? AND Email=? AND Phone=?");
+    $stmt = $conn->prepare("SELECT Cname,Email,Phone FROM Users WHERE Name=? AND Email=? AND Phone=?");
     $stmt->bind_param("sss", $inData["name"], $inData["email"], $inData["phone"]);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -39,7 +39,7 @@ function sendResultInfoAsJson($obj)
 
 function returnWithError($err)
 {
-    $retValue = '{"An error occurred!":"' . $err . '"}';
+    $retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
     sendResultInfoAsJson($retValue);
 }
 
