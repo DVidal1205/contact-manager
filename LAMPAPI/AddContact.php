@@ -1,29 +1,25 @@
 <?php
 
-$inData = getRequestInfo();
-
-$Cname = "";
-$email = "";
-$phone = "";
+$firstName = $inData["firstName"];
+$lastName = $inData["lastName"];
+$email = $inData["email"];
+$phone = $inData["phone"];
 
 $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 
 if ($conn->connect_error) {
     returnWithError($conn->connect_error);
 } else {
-    $stmt = $conn->prepare("SELECT Cname,Email,Phone FROM Users WHERE Name=? AND Email=? AND Phone=?");
-    $stmt->bind_param("sss", $inData["name"], $inData["email"], $inData["phone"]);
+    $stmt = $conn->prepare("INSERT into Contacts(FirstName, LastName, Email,Phone) VALUES (?,?,?,?)");
+    $stmt->bind_param("ssss", $firstName, $lastName, $email, $phone);
     $stmt->execute();
-    $result = $stmt->get_result();
+    http_response_code(200);
 
-    if ($row = $result->fetch_assoc()) {
-        returnWithInfo($row['Cname'], $row['email'], $row['phone']);
-    } else {
-        returnWithError("No Records Found");
-    }
+    $searchResutls = json_encode(["Contact Added" => "$firstName $lastName", "Phone" => $phone, "Email" => $email]);
 
     $stmt->close();
     $conn->close();
+    sendResultInfoAsJson($searchResutls);
 }
 
 function getRequestInfo()
