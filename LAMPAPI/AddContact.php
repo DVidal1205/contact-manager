@@ -11,13 +11,15 @@ $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 if ($conn->connect_error) {
     returnWithError($conn->connect_error);
 } else {
-    $stmt = $conn->prepare("INSERT INTO Contacts (Name, Email, Phone) VALUES (?, ?, ?)");
+    $stmt = $conn->prepare("SELECT Name,Email,Phone FROM Users WHERE Name=? AND Email=? AND Phone=?");
     $stmt->bind_param("sss", $inData["name"], $inData["email"], $inData["phone"]);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if ($stmt->execute()) {
+    if ($row = $result->fetch_assoc()) {
         returnWithInfo($row['name'], $row['email'], $row['phone']);
     } else {
-        returnWithError("Failed to add contact: " . $stmt->error);
+        returnWithError("No Records Found");
     }
 
     $stmt->close();
@@ -43,6 +45,6 @@ function returnWithError($err)
 
 function returnWithInfo($name, $email, $phone)
 {
-    $retValue = '{"Contact successfully created. It is -> Name":"' . $name . '","Email":"' . $email . '","Phone":"' . $phone . '","error":""}';
+    $retValue = '{"Name":' . $name . ',"Email":"' . $email . ',"Phone":"' . $phone . '","error":""}';
     sendResultInfoAsJson($retValue);
 }
