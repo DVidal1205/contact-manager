@@ -1,6 +1,6 @@
 <?php
 
-
+$inData = getRequestInfo();
 
 // Database configuration
 $servername = "localhost";
