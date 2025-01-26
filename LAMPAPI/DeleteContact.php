@@ -1,6 +1,8 @@
 <?php
-// delete_contact.php
 
+$inData = getRequestInfo();
+
+$contactId = $inData["id"];
 
 // Database configuration
 $servername = "localhost";
@@ -11,39 +13,44 @@ $dbname = "COP4331";
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    returnWithError($conn->connect_error);
+} else {
+    $stmt = $conn->prepare("DELETE FROM Contacts WHERE ID = ?");
+    $stmt->bind_param("i", $contactId);
 
-// Check if form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize input
-    $id = (int) $_POST['id'];
-
-    // Check if ID is valid
-    if (empty($id)) {
-        echo "Contact ID is required.";
-        exit;
-    }
-
-    // Prepare and bind SQL statement
-    $stmt = $conn->prepare("DELETE FROM contacts WHERE id = ?");
-    $stmt->bind_param("i", $id);
-
-    // Execute the statement
-    if ($stmt->execute()) {
-        if ($stmt->affected_rows > 0) {
-            echo "Contact deleted successfully!";
-        } else {
-            echo "No contact found with the given ID.";
-        }
+    if (!$stmt->execute()) {
+        returnWithError($stmt->error);
+    } else if ($stmt->affected_rows > 0) {
+        returnWithInfo($contactId);
     } else {
-        echo "Error: " . $stmt->error;
+        returnWithError("No Contact Found");
     }
 
-    // Close the statement and connection
     $stmt->close();
+    $conn->close();
 }
 
-$conn->close();
+function getRequestInfo()
+{
+    return json_decode(file_get_contents('php://input'), true);
+}
+
+function sendResultInfoAsJson($obj)
+{
+    header('Content-type: application/json');
+    echo $obj;
+}
+
+function returnWithError($err)
+{
+    $retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
+    sendResultInfoAsJson($retValue);
+}
+
+function returnWithInfo($ID)
+{
+    $retValue = '{"contactDeleted":' . $ID . ',"error":""}';
+    sendResultInfoAsJson($retValue);
+}
+?>

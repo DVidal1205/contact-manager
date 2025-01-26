@@ -27,17 +27,9 @@ if ($conn->connect_error) {
     if (!$stmt->execute()) {
         returnWithError($stmt->error);
     } else {
-        http_response_code(200);
-        // Send back a success response
-        $searchResults = json_encode([
-            "ContactAdded" => "$firstName $lastName",
-            "Phone" => $phone,
-            "Email" => $email
-        ]);
-
         $stmt->close();
         $conn->close();
-        sendResultInfoAsJson($searchResults);
+        returnWithInfo("$firstName $lastName", $email, $phone);
     }
 }
 
