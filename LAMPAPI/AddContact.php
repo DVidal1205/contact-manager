@@ -1,25 +1,44 @@
 <?php
 
+$inData = getRequestInfo();
+
 $firstName = $inData["firstName"];
 $lastName = $inData["lastName"];
 $email = $inData["email"];
 $phone = $inData["phone"];
 
-$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
+// Database configuration
+$servername = "localhost";
+$username = "TheBeast";
+$password = "WeLoveCOP4331";
+$dbname = "COP4331";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
     returnWithError($conn->connect_error);
 } else {
-    $stmt = $conn->prepare("INSERT into Contacts(FirstName, LastName, Email,Phone) VALUES (?,?,?,?)");
+    $stmt = $conn->prepare("INSERT into Contacts(FirstName, LastName, Email, Phone) VALUES (?,?,?,?)");
+    // Bind the parameters correctly
     $stmt->bind_param("ssss", $firstName, $lastName, $email, $phone);
-    $stmt->execute();
-    http_response_code(200);
 
-    $searchResutls = json_encode(["Contact Added" => "$firstName $lastName", "Phone" => $phone, "Email" => $email]);
+    // Try executing and handle any errors
+    if (!$stmt->execute()) {
+        returnWithError($stmt->error);
+    } else {
+        http_response_code(200);
+        // Send back a success response
+        $searchResults = json_encode([
+            "ContactAdded" => "$firstName $lastName",
+            "Phone" => $phone,
+            "Email" => $email
+        ]);
 
-    $stmt->close();
-    $conn->close();
-    sendResultInfoAsJson($searchResutls);
+        $stmt->close();
+        $conn->close();
+        sendResultInfoAsJson($searchResults);
+    }
 }
 
 function getRequestInfo()
@@ -41,6 +60,6 @@ function returnWithError($err)
 
 function returnWithInfo($name, $email, $phone)
 {
-    $retValue = '{"Name":' . $name . ',"Email":"' . $email . ',"Phone":"' . $phone . '","error":""}';
+    $retValue = '{"Name":' . $name . ',"Email":"' . $email . '","Phone":"' . $phone . '","error":""}';
     sendResultInfoAsJson($retValue);
 }

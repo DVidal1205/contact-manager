@@ -1,11 +1,6 @@
-
 <?php
 
 $inData = getRequestInfo();
-
-$id = 0;
-$firstName = "";
-$lastName = "";
 
 // Database configuration
 $servername = "localhost";
