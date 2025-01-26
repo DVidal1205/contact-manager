@@ -1,5 +1,12 @@
 <?php
-// update_contact.php
+
+$inData = getRequestInfo();
+
+$id = (int) $inData["id"];
+$firstName = $inData["firstName"];
+$lastName = $inData["lastName"];
+$email = $inData["email"];
+$phone = $inData["phone"];
 
 // Database configuration
 $servername = "localhost";
@@ -10,48 +17,49 @@ $dbname = "COP4331";
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Check if form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize and validate inputs
-    $id = (int) $_POST['id']; // Assuming the contact is identified by an "id" field
-    $name = htmlspecialchars(trim($_POST['name']));
-    $email = htmlspecialchars(trim($_POST['email']));
-    $phone = htmlspecialchars(trim($_POST['phone']));
-
-    // Check if fields are empty
-    if (empty($id) || empty($name) || empty($email) || empty($phone)) {
-        echo "All fields are required.";
-        exit;
+    returnWithError($conn->connect_error);
+} else {
+    if (empty($id) || empty($firstName) || empty($lastName) || empty($email) || empty($phone)) {
+        returnWithError("All fields are required.");
     }
 
-    // Validate email format
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "Invalid email format.";
-        exit;
-    }
+    $stmt = $conn->prepare("UPDATE Contacts SET FirstName = ?, LastName = ?, Email = ?, Phone = ? WHERE ID = ?");
+    $stmt->bind_param("ssssi", $firstName, $lastName, $email, $phone, $id);
 
-    // Prepare and bind SQL statement
-    $stmt = $conn->prepare("UPDATE contacts SET name = ?, email = ?, phone = ? WHERE id = ?");
-    $stmt->bind_param("sssi", $name, $email, $phone, $id);
-
-    // Execute the statement
-    if ($stmt->execute()) {
-        if ($stmt->affected_rows > 0) {
-            echo "Contact updated successfully!";
-        } else {
-            echo "No changes were made or contact not found.";
-        }
+    if (!$stmt->execute()) {
+        returnWithError($stmt->error);
+    } else if ($stmt->affected_rows > 0) {
+        returnWithInfo($id, $firstName, $lastName, $email, $phone);
     } else {
-        echo "Error: " . $stmt->error;
+        returnWithError("No changes were made or contact not found.");
     }
 
-    // Close the statement and connection
     $stmt->close();
+    $conn->close();
 }
 
-$conn->close();
+function getRequestInfo()
+{
+    return json_decode(file_get_contents('php://input'), true);
+}
+
+function sendResultInfoAsJson($obj)
+{
+    header('Content-type: application/json');
+    echo $obj;
+}
+
+function returnWithError($err)
+{
+    $retValue = '{"id":0,"firstName":"","lastName":"","email":"","phone":"","error":"' . $err . '"}';
+    sendResultInfoAsJson($retValue);
+}
+
+function returnWithInfo($id, $firstName, $lastName, $email, $phone)
+{
+    $retValue = '{"message":"Contact updated.","id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","email":"' . $email . '","phone":"' . $phone . '","error":""}';
+    sendResultInfoAsJson($retValue);
+}
+
+?>
