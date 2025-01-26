@@ -52,6 +52,6 @@ function returnWithError($err)
 
 function returnWithInfo($name, $email, $phone)
 {
-    $retValue = '{"Name":' . $name . ',"Email":"' . $email . '","Phone":"' . $phone . '","error":""}';
+    $retValue = '{"message":"Contact added.","Name":"' . $name . '","Email":"' . $email . '","Phone":"' . $phone . '","error":""}';
     sendResultInfoAsJson($retValue);
 }

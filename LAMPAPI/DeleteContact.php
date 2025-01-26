@@ -68,7 +68,7 @@ function returnWithError($err)
 
 function returnWithInfo($firstName, $lastName, $email, $phone)
 {
-    $retValue = '{"firstName":"' . $firstName . '","lastName":"' . $lastName . '","email":"' . $email . '","phone":"' . $phone . '","error":""}';
+    $retValue = '{"message":"Contact deleted.","firstName":"' . $firstName . '","lastName":"' . $lastName . '","email":"' . $email . '","phone":"' . $phone . '","error":""}';
     sendResultInfoAsJson($retValue);
 }
 ?>
