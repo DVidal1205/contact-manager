@@ -1,6 +1,6 @@
 <?php
-// search_contact.php
 
+$inData = getRequestInfo();
 
 // Database configuration
 $servername = "localhost";
@@ -11,43 +11,71 @@ $dbname = "COP4331";
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    returnWithError($conn->connect_error);
+    exit();
+} else {
 
-$results = [];
+    $search = isset($inData["search"]) ? trim($inData["search"]) : "";
 
-// Check if form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['query'])) {
-    // Sanitize input
-    $query = htmlspecialchars(trim($_GET['query']));
-
-    // Check if query is empty
-    if (!empty($query)) {
-        // Prepare and bind SQL statement
-        $stmt = $conn->prepare("SELECT id, name, email, phone FROM contacts WHERE name LIKE ? OR email LIKE ? OR phone LIKE ?");
-        $likeQuery = "%$query%";
-        $stmt->bind_param("sss", $likeQuery, $likeQuery, $likeQuery);
-
-        // Execute the statement
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        // Fetch results
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $results[] = $row;
-            }
-        } else {
-            $message = "No contacts found.";
-        }
-
-        // Close the statement
-        $stmt->close();
+    if ($search === "") {
+        $stmt = $conn->prepare("SELECT ID, FirstName, LastName, Email, Phone FROM Contacts");
     } else {
-        $message = "Please enter a search query.";
+        $stmt = $conn->prepare(
+            "SELECT ID, FirstName, LastName, Email, Phone
+         FROM Contacts
+         WHERE FirstName LIKE ?
+            OR LastName LIKE ?
+            OR Email LIKE ?
+            OR Phone LIKE ?"
+        );
+        $likeSearch = "%" . $search . "%";
+        $stmt->bind_param("ssss", $likeSearch, $likeSearch, $likeSearch, $likeSearch);
     }
+
+    if (!$stmt->execute()) {
+        returnWithError($stmt->error);
+        $stmt->close();
+        $conn->close();
+        exit();
+    }
+
+    $result = $stmt->get_result();
+
+    $contacts = array();
+    while ($row = $result->fetch_assoc()) {
+        $contacts[] = $row;
+    }
+
+    $stmt->close();
+    $conn->close();
+
+    returnWithInfo($contacts);
 }
 
-$conn->close();
+
+function getRequestInfo()
+{
+    // Read raw JSON from input and decode into associative array
+    return json_decode(file_get_contents('php://input'), true);
+}
+
+function sendResultInfoAsJson($obj)
+{
+    header('Content-type: application/json');
+    echo $obj;
+}
+
+function returnWithError($err)
+{
+    $retValue = '{"results":[],"error":"' . $err . '"}';
+    sendResultInfoAsJson($retValue);
+}
+
+function returnWithInfo($contacts)
+{
+    $retValue = '{"message":"Contacts queried.","results":' . json_encode($contacts) . ',"error":""}';
+    sendResultInfoAsJson($retValue);
+}
+
+?>
