@@ -16,18 +16,36 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     returnWithError($conn->connect_error);
 } else {
-    $stmt = $conn->prepare("DELETE FROM Contacts WHERE ID = ?");
-    $stmt->bind_param("i", $contactId);
 
-    if (!$stmt->execute()) {
-        returnWithError($stmt->error);
-    } else if ($stmt->affected_rows > 0) {
-        returnWithInfo($contactId);
+    // Query the user first so we can return the info on a successful deletion
+    $selectStmt = $conn->prepare("SELECT FirstName, LastName, Email, Phone FROM Contacts WHERE ID = ?");
+    $selectStmt->bind_param("i", $contactId);
+    $selectStmt->execute();
+    $result = $selectStmt->get_result();
+
+    if ($row = $result->fetch_assoc()) {
+        $firstName = $row["FirstName"];
+        $lastName = $row["LastName"];
+        $email = $row["Email"];
+        $phone = $row["Phone"];
+
+        $deleteStmt = $conn->prepare("DELETE FROM Contacts WHERE ID = ?");
+        $deleteStmt->bind_param("i", $contactId);
+
+        if (!$deleteStmt->execute()) {
+            returnWithError($deleteStmt->error);
+        } else if ($deleteStmt->affected_rows > 0) {
+            returnWithInfo($firstName, $lastName, $email, $phone);
+        } else {
+            returnWithError("No Contact Found");
+        }
+
+        $deleteStmt->close();
     } else {
         returnWithError("No Contact Found");
     }
 
-    $stmt->close();
+    $selectStmt->close();
     $conn->close();
 }
 
@@ -48,9 +66,9 @@ function returnWithError($err)
     sendResultInfoAsJson($retValue);
 }
 
-function returnWithInfo($ID)
+function returnWithInfo($firstName, $lastName, $email, $phone)
 {
-    $retValue = '{"contactDeleted":' . $ID . ',"error":""}';
+    $retValue = '{"firstName":"' . $firstName . '","lastName":"' . $lastName . '","email":"' . $email . '","phone":"' . $phone . '","error":""}';
     sendResultInfoAsJson($retValue);
 }
 ?>
