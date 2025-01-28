@@ -12,7 +12,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     };
 
     // Send the AJAX request
-    fetch('LAMPAPILogin.php', {
+    fetch('LAMPAPI/Login.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
