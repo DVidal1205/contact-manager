@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScuBuddies - Log In</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <img src="img/Scu_logo.png" alt="ScuBuddies Logo" class="logo">
+        <h1>ScuBuddies</h1>
+    </header>
+    <div class="container">
+        <div class="content">
+            <div class="login-box">
+                <h2>Log in</h2>
+                <form id="loginForm">
+                    <label for="username">Email or username</label>
+                    <input type="text" id="username" name="username" required>
+
+                    <label for="password">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="password" name="password" required>
+                        <span class="toggle-password">
+                            <img src="img/hide.png" alt="Hide" class="hide-icon"> Hide
+                        </span>
+                    </div>
+
+                    <button type="submit" class="login-btn">Log in</button>
+                </form>
+                <p>Don’t have an account? <a href="register.html">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+body {
+    font-family: 'Lexend', sans-serif;
+    background-color: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    position: relative;
+}
+
+.container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 20px;
+    width: 400px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+header {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 70px;
+    height: 70px;
+    margin-right: 20px;
+}
+
+h1 {
+    font-size: 30px;
+    color: #333;
+    font-weight: 550;
+}
+
+.login-box {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.login-box h2 {
+    font-weight: 550;
+}
+
+.login-box p {
+    text-align: center;
+}
+
+label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    color: #666;
+}
+
+input[type="text"],
+input[type="password"] {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.password-container {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 5px;
+    top: 10px;
+    transform: translateY(-160%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #666;
+}
+
+.hide-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    filter: invert(33%) brightness(90%) contrast(70%);
+}
+
+.login-btn {
+    width: 100%;
+    padding: 13px;
+    background-color: #5e5e5e;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.login-btn:hover {
+    background-color: #313131;
+}
+
+p {
+    margin-top: 30px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: underline;
+}
