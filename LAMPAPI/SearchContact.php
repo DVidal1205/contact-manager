@@ -21,6 +21,7 @@ if ($conn->connect_error) {
 
     if ($search === "") {
         $stmt = $conn->prepare("SELECT ID, FirstName, LastName, Email, Phone, FavoriteSpot FROM Contacts WHERE UserID = ?");
+        $stmt->bind_param("i", $userId);
     } else {
         $stmt = $conn->prepare(
             "SELECT ID, FirstName, LastName, Email, Phone, FavoriteSpot
