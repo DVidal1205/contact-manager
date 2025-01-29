@@ -25,7 +25,7 @@ if ($conn->connect_error) {
         returnWithError("All fields are required.");
     }
 
-    $stmt = $conn->prepare("INSERT into Contacts(FirstName, LastName, Email, Phone, FavoriteSpot, UserID) VALUES (?,?,?,?,?, ?)");
+    $stmt = $conn->prepare("INSERT into Contacts(FirstName, LastName, Email, Phone, FavoriteSpot, UserID) VALUES (?,?,?,?,?,?)");
     $stmt->bind_param("sssssi", $firstName, $lastName, $email, $phone, $favoriteSpot, $userId);
 
     if (!$stmt->execute()) {
