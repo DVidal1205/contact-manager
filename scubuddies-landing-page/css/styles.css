@@ -1,12 +1,31 @@
 body {
     font-family: 'Lexend', sans-serif;
-    background-color: aliceblue;
+    background-image: url('../img/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     height: 100vh;
     margin: 0;
     position: relative;
+}
+
+.header-container {
+    width: 100%;
+    background-color: white;
+    padding: 5px 0;
+    border: 1px solid #ccc;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    max-width: 1200px;
+    margin: 0; /* Center the header content horizontally */
+    padding-left: 10px;
 }
 
 .container {
@@ -16,16 +35,7 @@ body {
     width: 400px;
     text-align: center;
     border: 1px solid #ccc;
-}
-
-header {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .logo {
