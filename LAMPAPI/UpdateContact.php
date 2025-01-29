@@ -26,7 +26,7 @@ if ($conn->connect_error) {
         returnWithError("All fields are required.");
     }
 
-    $stmt = $conn->prepare("UPDATE Contacts SET FirstName = ?, LastName = ?, Email = ?, Phone = ?, FavoriteSpot = ?, WHERE ID = ? AND UserID = ?");
+    $stmt = $conn->prepare("UPDATE Contacts SET FirstName = ?, LastName = ?, Email = ?, Phone = ?, FavoriteSpot = ? WHERE ID = ? AND UserID = ?");
     $stmt->bind_param("sssssii", $firstName, $lastName, $email, $phone, $favoriteSpot, $id, $userId);
 
     if (!$stmt->execute()) {
