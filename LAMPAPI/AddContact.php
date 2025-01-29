@@ -21,11 +21,11 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     returnWithError($conn->connect_error);
 } else {
-    if (empty($firstName) || empty($lastName) || empty($email) || empty($phone) || empty($favoriteSpot) || empty($userId)) {
+    if (empty($firstName) || empty($lastName) || empty($email) || empty($phone) || empty($favoriteSpot) || $userId == null) {
         returnWithError("All fields are required.");
     }
 
-    $stmt = $conn->prepare("INSERT into Contacts(FirstName, LastName, Email, Phone, FavoriteSpot, UserID) VALUES (?,?,?,?,?)");
+    $stmt = $conn->prepare("INSERT into Contacts(FirstName, LastName, Email, Phone, FavoriteSpot, UserID) VALUES (?,?,?,?,?, ?)");
     $stmt->bind_param("sssssi", $firstName, $lastName, $email, $phone, $favoriteSpot, $userId);
 
     if (!$stmt->execute()) {

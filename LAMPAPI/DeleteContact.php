@@ -18,7 +18,7 @@ if ($conn->connect_error) {
     returnWithError($conn->connect_error);
 } else {
 
-    if (empty($contactId) || empty($userId)) {
+    if (empty($contactId) || $userId == null) {
         returnWithError("All fields are required.");
     }
 
