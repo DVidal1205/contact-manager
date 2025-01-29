@@ -18,7 +18,7 @@ if ($conn->connect_error) {
 } else {
 
     // Query the user first so we can return the info on a successful deletion
-    $selectStmt = $conn->prepare("SELECT FirstName, LastName, Email, Phone FROM Contacts WHERE ID = ?");
+    $selectStmt = $conn->prepare("SELECT FirstName, LastName, Email, Phone, FavoriteSpot FROM Contacts WHERE ID = ?");
     $selectStmt->bind_param("i", $contactId);
     $selectStmt->execute();
     $result = $selectStmt->get_result();
@@ -28,6 +28,7 @@ if ($conn->connect_error) {
         $lastName = $row["LastName"];
         $email = $row["Email"];
         $phone = $row["Phone"];
+        $favoriteSpot = $row["FavoriteSpot"];
 
         $deleteStmt = $conn->prepare("DELETE FROM Contacts WHERE ID = ?");
         $deleteStmt->bind_param("i", $contactId);
@@ -35,7 +36,7 @@ if ($conn->connect_error) {
         if (!$deleteStmt->execute()) {
             returnWithError($deleteStmt->error);
         } else if ($deleteStmt->affected_rows > 0) {
-            returnWithInfo($firstName, $lastName, $email, $phone);
+            returnWithInfo($firstName, $lastName, $email, $phone, $favoriteSpot);
         } else {
             returnWithError("No Contact Found");
         }
@@ -62,13 +63,13 @@ function sendResultInfoAsJson($obj)
 
 function returnWithError($err)
 {
-    $retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
+    $retValue = '{"id":0,"firstName":"","lastName":"","email":"","phone":"","favoriteSpot":"","error":"' . $err . '"}';
     sendResultInfoAsJson($retValue);
 }
 
-function returnWithInfo($firstName, $lastName, $email, $phone)
+function returnWithInfo($firstName, $lastName, $email, $phone, $favoriteSpot)
 {
-    $retValue = '{"message":"Contact deleted.","firstName":"' . $firstName . '","lastName":"' . $lastName . '","email":"' . $email . '","phone":"' . $phone . '","error":""}';
+    $retValue = '{"message":"Contact deleted.","firstName":"' . $firstName . '","lastName":"' . $lastName . '","email":"' . $email . '","phone":"' . $phone . '","favoriteSpot":"' . $favoriteSpot . '","error":""}';
     sendResultInfoAsJson($retValue);
 }
 ?>

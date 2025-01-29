@@ -19,18 +19,19 @@ if ($conn->connect_error) {
     $search = isset($inData["search"]) ? trim($inData["search"]) : "";
 
     if ($search === "") {
-        $stmt = $conn->prepare("SELECT ID, FirstName, LastName, Email, Phone FROM Contacts");
+        $stmt = $conn->prepare("SELECT ID, FirstName, LastName, Email, Phone, FavoriteSpot FROM Contacts");
     } else {
         $stmt = $conn->prepare(
-            "SELECT ID, FirstName, LastName, Email, Phone
+            "SELECT ID, FirstName, LastName, Email, Phone, FavoriteSpot
          FROM Contacts
          WHERE FirstName LIKE ?
             OR LastName LIKE ?
             OR Email LIKE ?
-            OR Phone LIKE ?"
+            OR Phone LIKE ?
+            OR FavoriteSpot LIKE ?"
         );
         $likeSearch = "%" . $search . "%";
-        $stmt->bind_param("ssss", $likeSearch, $likeSearch, $likeSearch, $likeSearch);
+        $stmt->bind_param("sssss", $likeSearch, $likeSearch, $likeSearch, $likeSearch, $likeSearch);
     }
 
     if (!$stmt->execute()) {

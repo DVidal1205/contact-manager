@@ -7,6 +7,7 @@ $firstName = $inData["firstName"];
 $lastName = $inData["lastName"];
 $email = $inData["email"];
 $phone = $inData["phone"];
+$favoriteSpot = $inData["favoriteSpot"];
 
 // Database configuration
 $servername = "localhost";
@@ -20,17 +21,17 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     returnWithError($conn->connect_error);
 } else {
-    if (empty($id) || empty($firstName) || empty($lastName) || empty($email) || empty($phone)) {
+    if (empty($id) || empty($firstName) || empty($lastName) || empty($email) || empty($phone) || empty($favoriteSpot)) {
         returnWithError("All fields are required.");
     }
 
-    $stmt = $conn->prepare("UPDATE Contacts SET FirstName = ?, LastName = ?, Email = ?, Phone = ? WHERE ID = ?");
-    $stmt->bind_param("ssssi", $firstName, $lastName, $email, $phone, $id);
+    $stmt = $conn->prepare("UPDATE Contacts SET FirstName = ?, LastName = ?, Email = ?, Phone = ?, FavoriteSpot = ?, WHERE ID = ?");
+    $stmt->bind_param("sssssi", $firstName, $lastName, $email, $phone, $favoriteSpot, $id);
 
     if (!$stmt->execute()) {
         returnWithError($stmt->error);
     } else if ($stmt->affected_rows > 0) {
-        returnWithInfo($id, $firstName, $lastName, $email, $phone);
+        returnWithInfo($id, $firstName, $lastName, $email, $phone, $favoriteSpot);
     } else {
         returnWithError("No changes were made or contact not found.");
     }
@@ -52,13 +53,13 @@ function sendResultInfoAsJson($obj)
 
 function returnWithError($err)
 {
-    $retValue = '{"id":0,"firstName":"","lastName":"","email":"","phone":"","error":"' . $err . '"}';
+    $retValue = '{"id":0,"firstName":"","lastName":"","email":"","phone":"","favoriteSpot":"","error":"' . $err . '"}';
     sendResultInfoAsJson($retValue);
 }
 
-function returnWithInfo($id, $firstName, $lastName, $email, $phone)
+function returnWithInfo($id, $firstName, $lastName, $email, $phone, $favoriteSpot)
 {
-    $retValue = '{"message":"Contact updated.","id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","email":"' . $email . '","phone":"' . $phone . '","error":""}';
+    $retValue = '{"message":"Contact updated.","id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","email":"' . $email . '","phone":"' . $phone . '","favoriteSpot":"' . $favoriteSpot . '","error":""}';
     sendResultInfoAsJson($retValue);
 }
 
