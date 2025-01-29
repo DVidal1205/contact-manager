@@ -20,7 +20,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     returnWithError($conn->connect_error);
 } else {
-    if (empty($id) || empty($firstName) || empty($lastName) || empty($email) || empty($phone) || empty($favoriteSpot)) {
+    if (empty($firstName) || empty($lastName) || empty($email) || empty($phone) || empty($favoriteSpot)) {
         returnWithError("All fields are required.");
     }
 
