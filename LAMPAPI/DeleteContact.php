@@ -3,6 +3,7 @@
 $inData = getRequestInfo();
 
 $contactId = $inData["id"];
+$userId = $inData["userId"];
 
 // Database configuration
 $servername = "localhost";
@@ -17,9 +18,13 @@ if ($conn->connect_error) {
     returnWithError($conn->connect_error);
 } else {
 
+    if (empty($contactId) || empty($userId)) {
+        returnWithError("All fields are required.");
+    }
+
     // Query the user first so we can return the info on a successful deletion
-    $selectStmt = $conn->prepare("SELECT FirstName, LastName, Email, Phone, FavoriteSpot FROM Contacts WHERE ID = ?");
-    $selectStmt->bind_param("i", $contactId);
+    $selectStmt = $conn->prepare("SELECT FirstName, LastName, Email, Phone, FavoriteSpot FROM Contacts WHERE ID = ? AND UserID = ?");
+    $selectStmt->bind_param("ii", $contactId, $userId);
     $selectStmt->execute();
     $result = $selectStmt->get_result();
 
@@ -30,8 +35,8 @@ if ($conn->connect_error) {
         $phone = $row["Phone"];
         $favoriteSpot = $row["FavoriteSpot"];
 
-        $deleteStmt = $conn->prepare("DELETE FROM Contacts WHERE ID = ?");
-        $deleteStmt->bind_param("i", $contactId);
+        $deleteStmt = $conn->prepare("DELETE FROM Contacts WHERE ID = ? AND UserID = ?");
+        $deleteStmt->bind_param("ii", $contactId, $userId);
 
         if (!$deleteStmt->execute()) {
             returnWithError($deleteStmt->error);

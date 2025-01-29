@@ -17,9 +17,10 @@ if ($conn->connect_error) {
 } else {
 
     $search = isset($inData["search"]) ? trim($inData["search"]) : "";
+    $userId = $inData["userId"];
 
     if ($search === "") {
-        $stmt = $conn->prepare("SELECT ID, FirstName, LastName, Email, Phone, FavoriteSpot FROM Contacts");
+        $stmt = $conn->prepare("SELECT ID, FirstName, LastName, Email, Phone, FavoriteSpot FROM Contacts WHERE UserID = ?");
     } else {
         $stmt = $conn->prepare(
             "SELECT ID, FirstName, LastName, Email, Phone, FavoriteSpot
@@ -28,10 +29,12 @@ if ($conn->connect_error) {
             OR LastName LIKE ?
             OR Email LIKE ?
             OR Phone LIKE ?
-            OR FavoriteSpot LIKE ?"
+            OR FavoriteSpot LIKE ?
+            AND UserID = ?
+            "
         );
         $likeSearch = "%" . $search . "%";
-        $stmt->bind_param("sssss", $likeSearch, $likeSearch, $likeSearch, $likeSearch, $likeSearch);
+        $stmt->bind_param("sssssi", $likeSearch, $likeSearch, $likeSearch, $likeSearch, $likeSearch, $userId);
     }
 
     if (!$stmt->execute()) {

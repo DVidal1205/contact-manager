@@ -14,6 +14,11 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
 	returnWithError($conn->connect_error);
 } else {
+
+	if (empty($inData["login"]) || empty($inData["password"])) {
+		returnWithError("All fields are required.");
+	}
+
 	$stmt = $conn->prepare("SELECT ID,firstName,lastName FROM Users WHERE Login=? AND Password =?");
 	$stmt->bind_param("ss", $inData["login"], $inData["password"]);
 	$stmt->execute();

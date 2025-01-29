@@ -8,6 +8,7 @@ $lastName = $inData["lastName"];
 $email = $inData["email"];
 $phone = $inData["phone"];
 $favoriteSpot = $inData["favoriteSpot"];
+$userId = $inData["userId"];
 
 // Database configuration
 $servername = "localhost";
@@ -21,12 +22,12 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     returnWithError($conn->connect_error);
 } else {
-    if (empty($id) || empty($firstName) || empty($lastName) || empty($email) || empty($phone) || empty($favoriteSpot)) {
+    if (empty($id) || empty($firstName) || empty($lastName) || empty($email) || empty($phone) || empty($favoriteSpot) || empty($userId)) {
         returnWithError("All fields are required.");
     }
 
-    $stmt = $conn->prepare("UPDATE Contacts SET FirstName = ?, LastName = ?, Email = ?, Phone = ?, FavoriteSpot = ?, WHERE ID = ?");
-    $stmt->bind_param("sssssi", $firstName, $lastName, $email, $phone, $favoriteSpot, $id);
+    $stmt = $conn->prepare("UPDATE Contacts SET FirstName = ?, LastName = ?, Email = ?, Phone = ?, FavoriteSpot = ?, WHERE ID = ? AND UserID = ?");
+    $stmt->bind_param("sssssii", $firstName, $lastName, $email, $phone, $favoriteSpot, $id, $userId);
 
     if (!$stmt->execute()) {
         returnWithError($stmt->error);

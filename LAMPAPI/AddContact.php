@@ -7,6 +7,7 @@ $lastName = $inData["lastName"];
 $email = $inData["email"];
 $phone = $inData["phone"];
 $favoriteSpot = $inData["favoriteSpot"];
+$userId = $inData["userId"];
 
 // Database configuration
 $servername = "localhost";
@@ -20,12 +21,12 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     returnWithError($conn->connect_error);
 } else {
-    if (empty($firstName) || empty($lastName) || empty($email) || empty($phone) || empty($favoriteSpot)) {
+    if (empty($firstName) || empty($lastName) || empty($email) || empty($phone) || empty($favoriteSpot) || empty($userId)) {
         returnWithError("All fields are required.");
     }
 
-    $stmt = $conn->prepare("INSERT into Contacts(FirstName, LastName, Email, Phone, FavoriteSpot) VALUES (?,?,?,?,?)");
-    $stmt->bind_param("sssss", $firstName, $lastName, $email, $phone, $favoriteSpot);
+    $stmt = $conn->prepare("INSERT into Contacts(FirstName, LastName, Email, Phone, FavoriteSpot, UserID) VALUES (?,?,?,?,?)");
+    $stmt->bind_param("sssssi", $firstName, $lastName, $email, $phone, $favoriteSpot, $userId);
 
     if (!$stmt->execute()) {
         returnWithError($stmt->error);
@@ -56,7 +57,7 @@ function returnWithError($err)
 
 function returnWithInfo($id, $name, $email, $phone, $favoriteSpot)
 {
-    $retValue = '{"message":"Contact added.","id":' . $id . ',"Name":"' . $name . '","Email":"' . $email . '","Phone":"' . $phone . '","FavoriteSpot":"' . $favoriteSpot . '","error":""}';
+    $retValue = '{"message":"Contact added.","id":' . $id . ',"name":"' . $name . '","email":"' . $email . '","phone":"' . $phone . '","favoriteSpot":"' . $favoriteSpot . '","error":""}';
     sendResultInfoAsJson($retValue);
 }
 ?>

@@ -14,6 +14,11 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     returnWithError($conn->connect_error);
 } else {
+
+    if (empty($inData["firstName"]) || empty($inData["lastName"]) || empty($inData["login"]) || empty($inData["password"])) {
+        returnWithError("All fields are required.");
+    }
+
     $stmt = $conn->prepare("INSERT into Users(firstName, lastName, Login, Password) VALUES (?,?,?,?)");
     $stmt->bind_param(
         "ssss",
