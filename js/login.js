@@ -40,6 +40,8 @@ document
             });
     });
 
+const test = document.getElementsByTagName("form");
+console.log("test", test);
 document
     .getElementById("registerForm")
     .addEventListener("submit", function (event) {
