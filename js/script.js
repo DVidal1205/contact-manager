@@ -72,7 +72,7 @@ document
                     alert(data.error);
                 } else {
                     // Handle success
-                    alert("Login successful!");
+                    alert("Registration successful!");
                     // Redirect or perform other actions
                     window.location.href = "contact.html";
                 }
