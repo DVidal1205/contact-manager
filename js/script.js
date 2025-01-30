@@ -30,6 +30,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
             // Handle success
             alert('Login successful!');
             // Redirect or perform other actions
+            window.location.href = "contact.html";
         }
     })
     .catch(error => {
