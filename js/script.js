@@ -1,4 +1,4 @@
-let urlbase = 'http://167.71.248.97';
+let urlbase = 'http://scubuddies.xyz';
 
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent the default form submission
