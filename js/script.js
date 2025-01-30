@@ -1,3 +1,5 @@
+let urlbase = 'http://167.71.248.97';
+
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent the default form submission
 
@@ -34,3 +36,37 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         console.error('Error:', error);
     });
 });
+
+function register()
+{
+    let newfirstName = document.getElementById("first-name");
+    let newlastName = document.getElementById("last-name");
+    let newlogin = document.getElementById("login");
+    let newpassword = document.getElementById("password");
+
+    let url = urlbase + "/LAMPAPI/RegisterUser.php";
+
+    let u = {firstname:newfirstName,lastname:newlastName,login:newlogin,password:newpassword};
+
+    let jsonPayload = json.stringify(u);
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url,true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+    try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				document.getElementById("regResult").innerHTML = "Registered Successfully";
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("regResult").innerHTML = "failed";
+	}
+}
