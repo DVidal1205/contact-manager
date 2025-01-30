@@ -16,7 +16,7 @@ document
         };
 
         // Send the AJAX request
-        fetch("LAMPAPI/Login.php", {
+        fetch(urlbase + "/LAMPAPI/Login.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -58,7 +58,7 @@ document
         };
 
         // Send the AJAX request
-        fetch("LAMPAPI/RegisterUser.php", {
+        fetch(urlbase + "/LAMPAPI/RegisterUser.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
