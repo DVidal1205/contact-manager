@@ -1,84 +1,66 @@
 <html>
-
-<head>
-    <title>ScuBuddies - Sign Up</title>
-    
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
-
-</head>
-
-<body>
-    <div class="header-container">
-        <header>
-            <img src="img/Scu_logo.png" alt="ScuBuddies Logo" class="logo">
-            <h1>ScuBuddies</h1>
-        </header>
-    </div>
-
-    <div class="container">
+    <head>
+        <title>ScuBuddies - Sign Up</title>
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    </head>
+    <body class="screen-container">
+        <div class="header-container">
+            <header>
+                <img src="img/Scu_logo.png" alt="ScuBuddies Logo" class="logo">
+                <h1>ScuBuddies</h1>
+            </header>
+        </div>
+    <div class="container centered-absolute">
         <div class="content">
             <div class="login-box">
-
                 <h2>Sign Up</h2>
-
                 <form id="registerForm">
-                    <label for="username">Login* </label>
 
+                    <label for="username">Login* </label>
                     <input type="text" id="login" name="login" required>
 
                     <label for="username">First Name* </label>
-
                     <input type="text" id="first-name" name="first-name" required>
 
                     <label for="username">Last Name* </label>
-
                     <input type="text" id="last-name" name="last-name" required>
 
                     <label for="password">Password*</label>
-
                     <div class="password-container">
                         <input type="password" id="password" name="password" required>
-
                         <span class="toggle-password">
-                        
-
-                        <img src="img/hide.png" alt="Hide" class="hide-icon"> Hide
+                            <img src="img/hide.png" alt="Hide" class="hide-icon"> Hide
                         </span>
                     </div>
-                    <div class = "password-criteria">
+                    <div class="password-criteria hidden" id="password-criteria">
                         <ul>
-                            <li class = "criteria">
+                            <li class="criteria" id="uppercase">
                                 <span> <i>Uppercase </i> </span>
                             </li>
-                            <li class = "criteria">
+                            <li class="criteria" id="lowercase">
                                 <span> <i>Lowercase </i> </span>
                             </li>
-                            <li class = "criteria">
+                            <li class="criteria" id="number">
                                 <span> <i>Number</i> </span>
                             </li>
-                            <li class = "criteria">
+                            <li class="criteria" id="character-length">
                                 <span> <i>8+ characters </i> </span>
                             </li>
-                            <li class = "criteria">
-                                <span> <i>1 Special Character </i> </span>
+                            <li class="criteria" id="special-character">
+                                <span> <i>1+ Special Character </i> </span>
                             </li>
-                        
-
-                        
-
                         </ul>
                     </div>
+
                     <link rel="stylesheet" href="css/styles.css">
-    
-
-                    <button type="submit" class="login-btn">Sign Up</button>
-                    <span id = "regResult"></span>
+                    <button type="submit" class="login-btn" id="signup-btn">Sign Up</button>
+                    <span id="regResult"></span>
                 </form>
+                <p>Already have an account? <a href="index.html">Log In</a></p>
             </div>
-    <script defer src="js/register.js"></script>
-</body>
-
+            <script defer src="js/register.js"></script>
+    </body>
 </html>
