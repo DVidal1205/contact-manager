@@ -22,11 +22,12 @@ if ($conn->connect_error) {
     $stmt = $conn->prepare("SELECT ID FROM Users WHERE Login = ?");
     $stmt->bind_param("s", $inData["login"]);
     $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result && $result->num_rows > 0) {
+    $stmt->store_result();
+    if ($stmt->num_rows > 0) {
         $stmt->close();
         $conn->close();
         returnWithError("User already exists.");
+        exit();
     }
 
     $stmt = $conn->prepare("INSERT into Users(firstName, lastName, Login, Password) VALUES (?,?,?,?)");
