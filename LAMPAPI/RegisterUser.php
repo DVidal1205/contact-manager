@@ -19,11 +19,11 @@ if ($conn->connect_error) {
         returnWithError("All fields are required.");
     }
 
-    // Check if user already exists
     $stmt = $conn->prepare("SELECT ID FROM Users WHERE Login = ?");
     $stmt->bind_param("s", $inData["login"]);
     $stmt->execute();
-    if ($stmt->num_rows > 0) {
+    $result = $stmt->get_result();
+    if ($result && $result->num_rows > 0) {
         $stmt->close();
         $conn->close();
         returnWithError("User already exists.");
