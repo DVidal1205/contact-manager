@@ -11,13 +11,9 @@ window.onload = () => {
     searchContacts("");
 };
 
-document
-    .getElementById("searchBtn")
-    .addEventListener("click", function (event) {
-        event.preventDefault();
-        const query = document.getElementById("searchInput").value.trim();
-        searchContacts(query);
-    });
+document.getElementById("searchInput").addEventListener("input", function (e) {
+    searchContacts(e.target.value.trim());
+});
 
 function searchContacts(query) {
     const payload = {
@@ -26,22 +22,19 @@ function searchContacts(query) {
     };
 
     fetch(`${urlBase}/SearchContact.php`, {
-        method: "POST", // Using JSON POST
-        headers: {
-            "Content-Type": "application/json",
-        },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
     })
         .then((res) => res.json())
         .then((data) => {
-            console.log("Search Response:", data);
             if (data.error) {
                 alert("Error searching contacts: " + data.error);
             } else {
                 displayContacts(data.results || []);
             }
         })
-        .catch((err) => console.error("Search fetch error:", err));
+        .catch((err) => console.error(err));
 }
 
 function displayContacts(contacts) {
@@ -53,31 +46,22 @@ function displayContacts(contacts) {
         return;
     }
 
-    contacts.forEach((contact) => {
+    contacts.forEach((c) => {
         const row = document.createElement("tr");
         row.innerHTML = `
-            <td>${contact.FirstName}</td>
-            <td>${contact.LastName}</td>
-            <td>${contact.Email}</td>
-            <td>${contact.Phone}</td>
-            <td>${contact.FavoriteSpot}</td>
-            <td class="table-actions">
-                <button onclick='openEditModal(${JSON.stringify(
-                    contact
-                )})'>Edit</button>
-                <button onclick='deleteContact(${contact.ID})'>Delete</button>
-            </td>
-        `;
+      <td>${c.FirstName}</td>
+      <td>${c.LastName}</td>
+      <td>${c.Email}</td>
+      <td>${c.Phone}</td>
+      <td>${c.FavoriteSpot}</td>
+      <td class="table-actions">
+        <button onclick='openEditModal(${JSON.stringify(c)})'>Edit</button>
+        <button onclick='deleteContact(${c.ID})'>Delete</button>
+      </td>
+    `;
         tbody.appendChild(row);
     });
 }
-
-document
-    .getElementById("addContactForm")
-    .addEventListener("submit", function (event) {
-        event.preventDefault();
-        saveContact();
-    });
 
 function openAddModal() {
     editingContactId = null;
@@ -87,10 +71,9 @@ function openAddModal() {
 }
 
 function openEditModal(contact) {
-    editingContactId = contact.ID; // Means we'll update
+    editingContactId = contact.ID;
     document.getElementById("modalTitle").textContent = "Edit Contact";
 
-    // Fill form fields
     document.getElementById("firstNameInput").value = contact.FirstName;
     document.getElementById("lastNameInput").value = contact.LastName;
     document.getElementById("emailInput").value = contact.Email;
@@ -112,6 +95,16 @@ function saveContact() {
         return;
     }
 
+    if (!isValidEmail(email)) {
+        alert("Please enter a valid email.");
+        return;
+    }
+
+    if (!isValidPhone(phone)) {
+        alert("Please enter a valid phone number (7-15 digits).");
+        return;
+    }
+
     if (!editingContactId) {
         const payload = {
             firstName,
@@ -124,9 +117,7 @@ function saveContact() {
 
         fetch(`${urlBase}/AddContact.php`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
         })
             .then((res) => res.json())
@@ -138,7 +129,7 @@ function saveContact() {
                     searchContacts("");
                 }
             })
-            .catch((err) => console.error("Add contact fetch error:", err));
+            .catch((err) => console.error(err));
     } else {
         const payload = {
             id: editingContactId,
@@ -152,9 +143,7 @@ function saveContact() {
 
         fetch(`${urlBase}/UpdateContact.php`, {
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
         })
             .then((res) => res.json())
@@ -166,7 +155,7 @@ function saveContact() {
                     searchContacts("");
                 }
             })
-            .catch((err) => console.error("Update contact fetch error:", err));
+            .catch((err) => console.error(err));
     }
 }
 
@@ -180,9 +169,7 @@ function deleteContact(contactId) {
 
     fetch(`${urlBase}/DeleteContact.php`, {
         method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
     })
         .then((res) => res.json())
@@ -193,7 +180,7 @@ function deleteContact(contactId) {
                 searchContacts("");
             }
         })
-        .catch((err) => console.error("Delete contact fetch error:", err));
+        .catch((err) => console.error(err));
 }
 
 function doLogout() {
@@ -211,4 +198,14 @@ function clearModalFields() {
     document.getElementById("emailInput").value = "";
     document.getElementById("phoneInput").value = "";
     document.getElementById("favSpotInput").value = "";
+}
+
+function isValidEmail(email) {
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return pattern.test(email);
+}
+
+function isValidPhone(phone) {
+    const pattern = /^\+?\d{7,15}$/;
+    return pattern.test(phone);
 }
