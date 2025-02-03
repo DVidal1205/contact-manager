@@ -19,6 +19,16 @@ if ($conn->connect_error) {
         returnWithError("All fields are required.");
     }
 
+    // Check if user already exists
+    $stmt = $conn->prepare("SELECT ID FROM Users WHERE Login = ?");
+    $stmt->bind_param("s", $inData["login"]);
+    $stmt->execute();
+    if ($stmt->num_rows > 0) {
+        $stmt->close();
+        $conn->close();
+        returnWithError("User already exists.");
+    }
+
     $stmt = $conn->prepare("INSERT into Users(firstName, lastName, Login, Password) VALUES (?,?,?,?)");
     $stmt->bind_param(
         "ssss",
