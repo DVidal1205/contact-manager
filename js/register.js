@@ -30,6 +30,9 @@ document
                     alert(data.error);
                 } else {
                     alert("Registration successful!");
+                    localStorage.setItem("userId", data.id);
+                    localStorage.setItem("firstName", newfirstName);
+                    localStorage.setItem("lastName", newlastName);
                     window.location.href = "contact.html";
                 }
             })

@@ -31,7 +31,9 @@ document
                 } else {
                     // Handle success
                     alert("Login successful!");
-                    // Redirect or perform other actions
+                    localStorage.setItem("userId", data.id);
+                    localStorage.setItem("firstName", data.firstName);
+                    localStorage.setItem("lastName", data.lastName);
                     window.location.href = "contact.html";
                 }
             })
