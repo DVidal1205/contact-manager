@@ -27,10 +27,13 @@ document
             .then((data) => {
                 if (data.error) {
                     // Handle error
-                    alert(data.error);
+                    //alert(data.error);
+                    let msg = document.getElementById("login-alert");
+                    msg.classList.toggle("loginClass");
+                    
                 } else {
                     // Handle success
-                    alert("Login successful!");
+                    //alert("Login successful!");
                     localStorage.setItem("userId", data.id);
                     localStorage.setItem("firstName", data.firstName);
                     localStorage.setItem("lastName", data.lastName);

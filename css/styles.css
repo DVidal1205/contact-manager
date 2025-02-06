@@ -307,3 +307,18 @@ a:hover {
     justify-content: space-between;
     align-items: center;
 }
+
+#login-alert {
+
+    color: red;
+    font-size: 14px;
+    font-style: italic;
+}
+
+
+.loginClass {
+
+    display: none;
+}
+
+
