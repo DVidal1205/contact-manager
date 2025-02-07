@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
 </head>
+
 <body class="screen-container">
     <div class="header-container">
         <header>
@@ -16,6 +17,7 @@
             <h1>ScuBuddies</h1>
         </header>
     </div>
+    <div class="bubble-container"></div>
     <div class="container centered-absolute">
         <div class="content">
             <div class="login-box">
@@ -39,6 +41,26 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        function createBubble() {
+          const section = document.querySelector('.bubble-container');
+          const createElement = document.createElement('span');
+          var size = Math.random() * 60;
+    
+          createElement.style.width = 20 + size + 'px';
+          createElement.style.height = 20 + size + 'px';
+          createElement.style.left = Math.random() * innerWidth + 'px';
+          section.appendChild(createElement);
+    
+          setTimeout(() => {
+            createElement.remove();
+          }, 4000);
+        }
+    
+        
+        setInterval(createBubble, 850);
+      </script>
     <script src="js/login.js"></script>
+    
 </body>
 </html>
