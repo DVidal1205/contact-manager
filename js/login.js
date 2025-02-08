@@ -88,3 +88,16 @@ document
                 console.error("Error:", error);
             });
     });
+
+    function showPassword(){
+
+        let p = document.getElementById("password");
+
+        if(p.type === "password"){
+            p.type = "text";
+        }
+        else{
+            p.type = "password";
+        }
+
+    }

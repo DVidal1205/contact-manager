@@ -167,6 +167,14 @@ input[type="password"] {
     color: #666;
 }
 
+#hide-button{
+
+    background: inherit;
+    border:none;
+    cursor: auto;
+}
+
+
 .invalid {
     color: red;
     list-style-type: none;
