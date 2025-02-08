@@ -259,6 +259,7 @@ a:hover {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    height: 60%;
 }
 
 .contact-header {
@@ -280,10 +281,8 @@ a:hover {
     border-radius: 8px;
 }
 
-
-
  #tableDiv{
-    height: 244px;
+    height: 325px;
     overflow-y: auto;
 }
 
@@ -291,7 +290,6 @@ a:hover {
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px;
-    
 }
 
 
