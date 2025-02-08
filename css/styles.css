@@ -272,11 +272,20 @@ a:hover {
     border-radius: 8px;
 }
 
+
+
+ #tableDiv{
+    height: 244px;
+    overflow-y: auto;
+}
+
 .contacts-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px;
+    
 }
+
 
 .contacts-table th,
 .contacts-table td {
