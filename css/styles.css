@@ -167,13 +167,26 @@ input[type="password"] {
     color: #666;
 }
 
-#hide-button{
+.hide-button{
+
+    position: absolute;
+    right: 5px;
+    top: 10px;
+    transform: translateY(-160%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #666;
 
     background: inherit;
     border:none;
-    cursor: auto;
 }
+.hide-button:hover{
 
+    cursor: pointer;
+    border: 2pt solid;
+
+}
 
 .invalid {
     color: red;
@@ -267,11 +280,13 @@ a:hover {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    height:10%;
 }
 
 .search-box {
     width: 100%;
     margin-bottom: 15px;
+    height: 10%;
 }
 
 .search-box input {
@@ -282,7 +297,7 @@ a:hover {
 }
 
  #tableDiv{
-    height: 325px;
+    height: 60%;
     overflow-y: auto;
 }
 
