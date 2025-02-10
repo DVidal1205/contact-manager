@@ -29,7 +29,7 @@ document
                     // Handle error
                     //alert(data.error);
                     let msg = document.getElementById("login-alert");
-                    msg.classList.toggle("loginClass");
+                    msg.classList.toggle("hideAlert");
                     
                 } else {
                     // Handle success

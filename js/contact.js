@@ -7,9 +7,11 @@ if (!userId) {
     window.location.href = "index.html";
 }
 
+/*
 window.onload = () => {
     searchContacts("");
 };
+*/
 
 document.getElementById("searchInput").addEventListener("input", function (e) {
     searchContacts(e.target.value.trim());
@@ -96,12 +98,16 @@ function saveContact() {
     }
 
     if (!isValidEmail(email)) {
-        alert("Please enter a valid email.");
+        //alert("Please enter a valid email.");
+        let msg = document.getElementById("email-alert");
+        msg.classList.toggle("hideAlert");
         return;
     }
 
     if (!isValidPhone(phone)) {
-        alert("Please enter a valid phone number (7-15 digits).");
+        //alert("Please enter a valid phone number (7-15 digits).");
+        let msg = document.getElementById("pNumber-alert");
+        msg.classList.toggle("hideAlert");
         return;
     }
 

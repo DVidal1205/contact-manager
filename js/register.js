@@ -29,7 +29,7 @@ document
                 if (data.error) {
                     alert(data.error);
                 } else {
-                    alert("Registration successful!");
+                    //alert("Registration successful!");
                     localStorage.setItem("userId", data.id);
                     localStorage.setItem("firstName", newfirstName);
                     localStorage.setItem("lastName", newlastName);

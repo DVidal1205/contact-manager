@@ -267,7 +267,7 @@ a:hover {
 .contact-container {
     width: 80%;
     max-width: 1200px;
-    margin: 30px auto;
+    margin: 5% auto 2.5%;
     background-color: white;
     padding: 20px;
     border-radius: 10px;
@@ -319,10 +319,11 @@ a:hover {
     margin-right: 5px;
     padding: 6px 10px;
     border: none;
-    background-color: #5e5e5e;
+    background-color: #6fa8c7;
     color: white;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .table-actions button:hover {
@@ -380,13 +381,14 @@ a:hover {
 }
 
 .btn {
-    background-color: #5e5e5e;
+    background-color: #6fa8c7;
     color: white;
     border: none;
     padding: 10px 14px;
     border-radius: 8px;
     cursor: pointer;
     margin-top: 20px;
+    font-weight: bold;
 }
 
 .btn:hover {
@@ -399,15 +401,14 @@ a:hover {
     align-items: center;
 }
 
-#login-alert {
+.alertClass {
 
     color: red;
     font-size: 14px;
     font-style: italic;
 }
 
-
-.loginClass {
+.hideAlert {
 
     display: none;
 }
