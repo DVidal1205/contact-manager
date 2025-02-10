@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,12 +9,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="icon" href="img/Scu_logo.png">
 </head>
 
 <body class="screen-container">
     <div class="header-container">
         <header>
-            <a href ="http://scubuddies.xyz/"> <img src="img/Scu_logo.png" alt="ScuBuddies Logo" class="logo"> </a>
+            <a href="http://scubuddies.xyz/"> <img src="img/Scu_logo.png" alt="ScuBuddies Logo" class="logo"> </a>
             <h1>ScuBuddies</h1>
         </header>
     </div>
@@ -30,12 +32,13 @@
                     <div class="password-container">
                         <input type="password" id="password" name="password" required>
 
-                        <button class= "hide-button" type = "button" onclick="showPassword()">
-                            <img src="img/hide.png" alt="Hide" class="hide-icon">  Hide 
+                        <button class="hide-button" type="button" onclick="showPassword()">
+                            <img src="img/hide.png" alt="Hide" class="hide-icon"> Hide
                         </button>
-                    
+
                     </div>
-                    <span id = "login-alert" class = "hideAlert alertClass"> Incorrect Username/Password. Please Try Again. </span> 
+                    <span id="login-alert" class="hideAlert alertClass"> Incorrect Username/Password. Please Try Again.
+                    </span>
 
                     <button type="submit" class="login-btn">Log in</button>
                 </form>
@@ -45,24 +48,25 @@
     </div>
     <script type="text/javascript" defer>
         function createBubble() {
-          const section = document.querySelector('.bubble-container');
-          const createElement = document.createElement('span');
-          var size = Math.random() * 60;
-    
-          createElement.style.width = 20 + size + 'px';
-          createElement.style.height = 20 + size + 'px';
-          createElement.style.left = Math.random() * innerWidth + 'px';
-          section.appendChild(createElement);
-    
-          setTimeout(() => {
-            createElement.remove();
-          }, 4000);
+            const section = document.querySelector('.bubble-container');
+            const createElement = document.createElement('span');
+            var size = Math.random() * 60;
+
+            createElement.style.width = 20 + size + 'px';
+            createElement.style.height = 20 + size + 'px';
+            createElement.style.left = Math.random() * innerWidth + 'px';
+            section.appendChild(createElement);
+
+            setTimeout(() => {
+                createElement.remove();
+            }, 4000);
         }
-    
-        
+
+
         setInterval(createBubble, 850);
-      </script>
+    </script>
     <script src="js/login.js" defer></script>
-    
+
 </body>
+
 </html>
