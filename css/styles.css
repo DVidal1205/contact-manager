@@ -326,9 +326,12 @@ a:hover {
     font-weight: bold;
 }
 
+
 .table-actions button:hover {
     background-color: #313131;
 }
+
+
 
 .modal {
     display: none;
@@ -343,7 +346,7 @@ a:hover {
 
 .modal-content {
     background-color: white;
-    margin: 10% auto;
+    margin: 15% auto;
     padding: 20px;
     border-radius: 10px;
     width: 400px;
