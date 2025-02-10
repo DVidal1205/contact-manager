@@ -346,15 +346,17 @@ a:hover {
 
 .modal-content {
     background-color: white;
-    margin: 15% auto;
     padding: 20px;
     border-radius: 10px;
     width: 400px;
-    position: relative;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .close-btn {
-    background-color: #5e5e5e;
+    background-color: #6fa8c7;
     color: white;
     border: none;
     padding: 10px 14px;
@@ -371,7 +373,7 @@ a:hover {
 }
 
 .save-btn {
-    background-color: #5e5e5e;
+    background-color: #6fa8c7;
     color: white;
     border: none;
     padding: 10px 14px;
