@@ -7,11 +7,11 @@ if (!userId) {
     window.location.href = "index.html";
 }
 
-/*
+
 window.onload = () => {
     searchContacts("");
 };
-*/
+
 
 document.getElementById("searchInput").addEventListener("input", function (e) {
     searchContacts(e.target.value.trim());
