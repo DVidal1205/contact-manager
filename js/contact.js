@@ -1,6 +1,7 @@
 const urlBase = "http://scubuddies.xyz/LAMPAPI";
 let userId = localStorage.getItem("userId");
 let editingContactId = null;
+let contactToDelete = null;
 
 if (!userId) {
     alert("You must be logged in!");
@@ -58,7 +59,7 @@ function displayContacts(contacts) {
       <td>${c.FavoriteSpot}</td>
       <td class="table-actions">
         <button onclick='openEditModal(${JSON.stringify(c)})'>Edit</button>
-        <button onclick='deleteContact(${c.ID})'>Delete</button>
+        <button onclick='showConfirmModal(${c.ID})'>Delete</button>
       </td>
     `;
         tbody.appendChild(row);
@@ -165,9 +166,28 @@ function saveContact() {
     }
 }
 
-function deleteContact(contactId) {
-    if (!confirm("Are you sure you want to delete this contact?")) return;
+function showConfirmModal(contactId) {
+    contactToDelete = contactId;
+    document.getElementById("confirmModal").style.display = "block";
+}
 
+function hideConfirmModal() {
+    document.getElementById("confirmModal").style.display = "none";
+    contactToDelete = null;
+}
+
+document.getElementById("confirmDeleteBtn").addEventListener("click", function() {
+    if (contactToDelete !== null) {
+        deleteContact(contactToDelete);
+        hideConfirmModal();
+    }
+});
+
+document.getElementById("cancelDeleteBtn").addEventListener("click", function() {
+    hideConfirmModal();
+});
+
+function deleteContact(contactId) {
     const payload = {
         id: contactId,
         userId: parseInt(userId),
